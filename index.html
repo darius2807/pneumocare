@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PneumoCare</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<script>
+
+if(localStorage.getItem("isLogin") !== "true"){
+
+    window.location.href = "login.html";
+
+}
+
+</script>
+
+    <script>
+
+let currentStep = 1;
+const totalSteps = 6;
+
+function showStep(step){
+
+document
+.querySelectorAll('.step-content')
+.forEach(el=>el.classList.remove('active'));
+
+document
+.getElementById(`step${step}`)
+.classList.add('active');
+
+document
+.querySelectorAll('.step')
+.forEach(el=>el.classList.remove('active'));
+
+document
+.querySelector(`.step[data-step="${step}"]`)
+.classList.add('active');
+
+}
+
+function nextStep(){
+
+if(currentStep < totalSteps){
+
+currentStep++;
+showStep(currentStep);
+
+}
+
+}
+
+function prevStep(){
+
+if(currentStep > 1){
+
+currentStep--;
+showStep(currentStep);
+
+}
+
+}
+
+document
+.querySelectorAll('.step')
+.forEach(step=>{
+
+step.addEventListener('click',()=>{
+
+currentStep = Number(step.dataset.step);
+
+showStep(currentStep);
+
+});
+
+});
+
+function startBreathingTest(){
+
+let time = 30;
+
+const timer = document.getElementById("timer");
+
+const interval = setInterval(()=>{
+
+time--;
+
+timer.innerHTML = time + " detik";
+
+if(time <= 0){
+
+clearInterval(interval);
+
+nextStep();
+
+}
+
+},1000);
+
+}
+
+function logout(){
+
+    localStorage.removeItem("isLogin");
+
+    window.location.href = "login.html";
+
+}
+
+
+</script>
+
+<body>
+
+<!-- HEADER -->
+<header class="topbar">
+
+    <div class="logo-area">
+        <div class="logo-icon">
+            <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+
+        <div>
+            <h2>PneumoCare</h2>
+            <span>Asisten Cerdas Paru Sehat</span>
+        </div>
+
+        <div class="ai-badge">GallaxzDev</div>
+    </div>
+
+    <div class="top-actions">
+        <button class="session-btn">GLXZ</button>
+        <button class="logout-btn" onclick="logout()">
+            Keluar
+        </button>
+    </div>
+
+</header>
+
+<!-- STEPPER -->
+<section class="stepper">
+
+    <div class="step active" data-step="1">
+        <span>1</span>
+        Data Diri
+    </div>
+
+    <div class="step" data-step="2">
+        <span>2</span>
+        Pilih Gejala
+    </div>
+
+    <div class="step" data-step="3">
+        <span>3</span>
+        Cek Nafas
+    </div>
+
+    <div class="step" data-step="4">
+        <span>4</span>
+        Hasil Analisis
+    </div>
+
+    <div class="step" data-step="5">
+        <span>5</span>
+        AI Edukasi & Riset
+    </div>
+
+    <div class="step" data-step="6">
+        <span>6</span>
+        Konsultasi AI
+    </div>
+
+</section>
+
+<!-- CONTENT -->
+<main class="container">
+
+<!-- STEP 1 -->
+<div class="step-content active" id="step1">
+
+<div class="card">
+
+<div class="title-box">
+
+<div class="icon">
+<i class="fa-regular fa-user"></i>
+</div>
+
+<div>
+<h1>Langkah 1: Pengisian Data Diri</h1>
+<p>Isi data riwayat medis Anda secara lengkap.</p>
+</div>
+
+</div>
+
+<div class="grid">
+
+<div>
+<label>Nama Lengkap</label>
+<input type="text">
+</div>
+
+<div>
+<label>Usia</label>
+<input type="number">
+</div>
+
+<div>
+<label>Jenis Kelamin</label>
+<select>
+<option>Laki-laki</option>
+<option>Perempuan</option>
+</select>
+</div>
+
+<div class="double">
+
+<div>
+<label>Berat</label>
+<input type="number">
+</div>
+
+<div>
+<label>Tinggi</label>
+<input type="number">
+</div>
+
+</div>
+
+</div>
+
+<div class="footer-btn">
+<button class="next-btn" onclick="nextStep()">
+Lanjut Pilih Gejala →
+</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- STEP 2 -->
+<div class="step-content" id="step2">
+
+<div class="card">
+
+<div class="title-box">
+
+<div class="icon">
+🩺
+</div>
+
+<div>
+<h1>Langkah 2: Pilih Gejala</h1>
+<p>Pilih gejala yang sedang dirasakan.</p>
+</div>
+
+</div>
+
+<div class="symptom-grid">
+
+<label class="symptom-card">
+
+<input type="checkbox">
+
+<div>
+<h3>🤧 Batuk Berdahak / Kering</h3>
+<p>Batuk terus menerus.</p>
+</div>
+
+<span class="badge medium">
+Sedang
+</span>
+
+</label>
+
+<label class="symptom-card">
+
+<input type="checkbox">
+
+<div>
+<h3>🌡️ Demam Tinggi</h3>
+<p>Suhu tubuh di atas 38°C.</p>
+</div>
+
+<span class="badge medium">
+Sedang
+</span>
+
+</label>
+
+<label class="symptom-card">
+
+<input type="checkbox">
+
+<div>
+<h3>🫁 Sesak Nafas</h3>
+<p>Kesulitan bernapas.</p>
+</div>
+
+<span class="badge high">
+Tinggi
+</span>
+
+</label>
+
+<label class="symptom-card">
+
+<input type="checkbox">
+
+<div>
+<h3>⚡ Nyeri Dada</h3>
+<p>Nyeri saat bernapas.</p>
+</div>
+
+<span class="badge high">
+Tinggi
+</span>
+
+</label>
+
+</div>
+
+<div class="footer-btn">
+
+<button class="secondary-btn"
+onclick="prevStep()">
+← Kembali
+</button>
+
+<button class="next-btn"
+onclick="nextStep()">
+Lanjut Cek Nafas →
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- STEP 3 -->
+<div class="step-content" id="step3">
+
+<div class="card center-card">
+
+<h1>Langkah 3: Pengukur Nafas</h1>
+
+<div class="breath-circle">
+🫁
+</div>
+
+<h2 id="timer">
+30 detik
+</h2>
+
+<button class="next-btn"
+onclick="startBreathingTest()">
+Mulai Pengukuran
+</button>
+
+</div>
+
+</div>
+
+<!-- STEP 4 -->
+<div class="step-content" id="step4">
+
+<div class="card">
+
+<h1>Hasil Skrining PneumoCare</h1>
+
+<div class="risk-box">
+
+<h2>Tingkat Risiko Pneumonia</h2>
+
+<h1>RENDAH</h1>
+
+<p>
+Risiko rendah berdasarkan gejala yang dipilih.
+</p>
+
+</div>
+
+<div class="footer-btn">
+
+<button class="secondary-btn"
+onclick="prevStep()">
+← Kembali
+</button>
+
+<button class="next-btn"
+onclick="nextStep()">
+AI Edukasi →
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- STEP 5 -->
+<div class="step-content" id="step5">
+
+<div class="card">
+
+<div class="hero">
+
+<h1>Edukasi & Pencegahan Pneumonia</h1>
+
+<p>
+Pelajari cara menjaga kesehatan paru-paru.
+</p>
+
+</div>
+
+<div class="search-ai">
+
+<input
+type="text"
+placeholder="Tanyakan riset terbaru..."
+>
+
+<button>
+Cari Fakta AI
+</button>
+
+</div>
+
+<div class="footer-btn">
+
+<button class="secondary-btn"
+onclick="prevStep()">
+← Kembali
+</button>
+
+<button class="next-btn"
+onclick="nextStep()">
+Konsultasi AI →
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- STEP 6 -->
+<div class="step-content" id="step6">
+
+<div class="card">
+
+<h1>PneumoCare AI Doctor</h1>
+
+<div class="chat-box">
+
+<div class="message">
+Halo, saya siap membantu Anda.
+</div>
+
+</div>
+
+<div class="chat-input">
+
+<input
+type="text"
+placeholder="Tulis pertanyaan..."
+>
+
+<button>Kirim</button>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+</body>
+</html>
